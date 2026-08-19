@@ -1,0 +1,157 @@
+@import "tailwindcss";
+
+:root {
+  --font-display: "Press Start 2P", monospace;
+  --font-body: "VT323", monospace;
+  --gold: #ffd23f;
+  --red: #e6332a;
+  --sky: #3fa9f5;
+  --green: #35c24b;
+}
+
+* { -webkit-tap-highlight-color: transparent; }
+
+body {
+  font-family: var(--font-body);
+  color: #fff;
+}
+
+.font-display { font-family: var(--font-display); }
+.font-body { font-family: var(--font-body); }
+
+canvas.game-canvas {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ---- Pixel chunky buttons ---- */
+.btn-pixel {
+  font-family: var(--font-display);
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: #fff;
+  text-transform: uppercase;
+  padding: 14px 22px 15px;
+  position: relative;
+  cursor: pointer;
+  border: 3px solid #0b0e1f;
+  box-shadow: 0 5px 0 #0b0e1f, inset 0 -5px 0 rgba(0, 0, 0, 0.28), inset 0 3px 0 rgba(255, 255, 255, 0.28);
+  transition: transform 0.06s steps(2), box-shadow 0.06s steps(2), filter 0.12s;
+  user-select: none;
+}
+.btn-pixel:hover { filter: brightness(1.15); }
+.btn-pixel:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 #0b0e1f, inset 0 -3px 0 rgba(0, 0, 0, 0.28), inset 0 3px 0 rgba(255, 255, 255, 0.28);
+}
+.btn-red { background: linear-gradient(180deg, #ff6b5e 0%, #e6332a 55%, #b81f18 100%); }
+.btn-green { background: linear-gradient(180deg, #7ae08a 0%, #35c24b 55%, #1f8f33 100%); }
+.btn-blue { background: linear-gradient(180deg, #7cc4ff 0%, #3fa9f5 55%, #1f6fc0 100%); }
+.btn-gold { background: linear-gradient(180deg, #ffe896 0%, #ffd23f 55%, #d99a12 100%); color: #4a2c00; }
+
+/* ---- Title logo ---- */
+.logo-shadow {
+  text-shadow:
+    0 3px 0 #7c130d,
+    0 6px 0 #4a0b07,
+    4px 8px 0 rgba(0, 0, 0, 0.45),
+    0 0 26px rgba(255, 90, 40, 0.55);
+}
+.logo-blue {
+  text-shadow:
+    0 3px 0 #123f7c,
+    0 6px 0 #0a2447,
+    4px 8px 0 rgba(0, 0, 0, 0.45),
+    0 0 26px rgba(63, 169, 245, 0.6);
+}
+
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+@keyframes bobSlow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+.anim-bob { animation: bob 2.4s ease-in-out infinite; }
+.anim-bob-slow { animation: bobSlow 3.2s ease-in-out infinite; }
+
+@keyframes blinkHard { 0%, 54% { opacity: 1; } 55%, 100% { opacity: 0; } }
+.anim-blink { animation: blinkHard 1.1s steps(1) infinite; }
+
+@keyframes popIn {
+  0% { transform: scale(0.6) translateY(24px); opacity: 0; }
+  70% { transform: scale(1.06) translateY(-3px); opacity: 1; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+.anim-pop { animation: popIn 0.32s steps(6) both; }
+
+@keyframes slideCard {
+  0% { transform: translateX(-110%); }
+  100% { transform: translateX(0); }
+}
+.anim-card { animation: slideCard 0.28s steps(8) both; }
+
+@keyframes rankStamp {
+  0% { transform: scale(2.4) rotate(-14deg); opacity: 0; }
+  100% { transform: scale(1) rotate(-8deg); opacity: 1; }
+}
+.anim-rank { animation: rankStamp 0.35s steps(5) 0.5s both; }
+
+/* ---- CRT overlay ---- */
+.scanlines {
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.13) 0px,
+    rgba(0, 0, 0, 0.13) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: multiply;
+}
+.vignette {
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 58%, rgba(4, 6, 18, 0.55) 100%);
+}
+
+/* ---- Touch controls ---- */
+.touch-btn {
+  font-family: var(--font-display);
+  border: 3px solid rgba(255, 255, 255, 0.85);
+  background: rgba(10, 14, 32, 0.55);
+  color: #fff;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  touch-action: none;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.5);
+}
+.touch-btn:active, .touch-btn.held {
+  background: rgba(255, 210, 63, 0.75);
+  color: #3a2400;
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+}
+
+/* key cap */
+.keycap {
+  font-family: var(--font-display);
+  font-size: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  height: 26px;
+  padding: 0 6px;
+  border: 2px solid #ffffff;
+  border-bottom-width: 5px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.panel-retro {
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 3px #0b0e1f, 0 8px 0 3px rgba(0,0,0,0.4), inset 0 0 0 3px rgba(0,0,0,0.25);
+  background: rgba(12, 16, 36, 0.92);
+}
